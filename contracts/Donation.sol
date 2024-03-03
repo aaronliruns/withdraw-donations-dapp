@@ -7,6 +7,8 @@ contract Donation {
 
 	uint public etherDonations;
 
+    //you should use external if you expect that the function will only ever be called externally, 
+	//and use public if you need to call the function internally.
 	mapping(string => uint) public tokenDonations;
 
 	mapping(string => address) public allowedTokens;
@@ -15,10 +17,13 @@ contract Donation {
 		owner = msg.sender;
 	}
 
+    //ERC20 token whitelist
+	//Operate by owner only
 	function allowedToken(string calldata symbol, address tokenAddress) external onlyOwner {
 		allowedTokens[symbol] = tokenAddress;
 	}
 
+    //ETH native received call handler
 	receive() external payable {
 		etherDonations += msg.value;
 	}
