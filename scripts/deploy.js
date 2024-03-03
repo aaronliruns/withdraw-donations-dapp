@@ -7,21 +7,17 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
 
-  const lockedAmount = hre.ethers.parseEther("0.001");
+  const [deployer] = await ethers.getSigners();
 
-  const lock = await hre.ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
-
-  await lock.waitForDeployment();
+  console.log("Deploying contracts with the account:", deployer.address);
+  
+  Donation = await hre.ethers.getContractFactory('Donation', deployer);
+  donation = await Donation.deploy();
+  await donation.waitForDeployment();
 
   console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
+    `Contract Donation deployed to ${donation.target}`
   );
 }
 
@@ -31,3 +27,7 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+// sepolia
+// Deploying contracts with the account: 0x8fDC49b8fC53Fd6b5303C3040734aea0291d0960
+// Contract Donation deployed to 0x921d36C0B5B83ABa7F7e74459BF5FdA4Cd7C6201

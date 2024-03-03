@@ -53,6 +53,7 @@ describe('Donation', function()  {
 			//Calling receiveTokens with not whitelisted token will receive exception "This token is not allowed"
 			//Transferred amount is less than approved amount, otherwise cannot succeed:
 			//reverted with custom error 'ERC20InsufficientBalance'
+			//Insufficnet balance causes 'Insufficient allowance'
 			await donation.connect(signer2).receiveTokens(9,'WBTC')
             
 			//check account
